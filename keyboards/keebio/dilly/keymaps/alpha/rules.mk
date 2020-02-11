@@ -1,0 +1,2 @@
+BOOTLOADER = caterina
+RGBLIGHT_ENABLE = yes
