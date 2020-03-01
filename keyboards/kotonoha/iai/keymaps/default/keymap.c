@@ -22,20 +22,19 @@ extern uint8_t is_master;
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
 // entirely and just use numbers.
 
-#define _BASE 0
-#define _LOWER 1
-#define _RAISE 2
-#define _EXTEND 3
-#define _FUNC 4
-#define _MOUSE 5
-#define _ADJUST 6
+#define _BASE    0
+#define _CUSTOM  1
+#define _LOWER   2
+#define _RAISE   3
+#define _SUPPORT 4
+#define _ADJUST  5
 
 enum custom_keycodes {
-  BASE = SAFE_RANGE,
-  LOWER,
-  RAISE,
-  ADJUST,
-  BACKLIT,
+  ONESHOT_CLEAR = SAFE_RANGE,
+  ONESHOT_SHIFT,
+  ONESHOT_CTRL,
+  ONESHOT_ALT,
+  ONESHOT_GUI,
   RGBRST
 };
 
@@ -43,72 +42,80 @@ enum macro_keycodes {
   KC_SAMPLEMACRO,
 };
 
-#define _______ KC_TRNS
+// Fillers to make layering more clear
+#define KC_RST RESET
+#define KC_DBUG DEBUG
+#define KC_RTOG RGB_TOG
+#define KC_RMOD RGB_MOD
+#define KC_RRMD RGB_RMOD
+#define KC_RHUI RGB_HUI
+#define KC_RHUD RGB_HUD
+#define KC_RSAI RGB_SAI
+#define KC_RSAD RGB_SAD
+#define KC_RVAI RGB_VAI
+#define KC_RVAD RGB_VAD
 
-#define KC_CSPC LCTL_T(KC_SPACE)
-#define KC_SENT LSFT_T(KC_ENTER)
-#define KC_VGUI GUI_T(KC_V)
-#define KC_MGUI GUI_T(KC_M)
-#define KC_BALT LALT_T(KC_B)
-#define KC_CALT LALT_T(KC_C)
-#define KC_ZADJ LT(_ADJUST, KC_Z)
-#define KC_XADJ LT(_ADJUST, KC_X)
+#define KC_L1 DF(_BASE)
+#define KC_L2 DF(_CUSTOM)
 
-#define KC_DFNC LT(_FUNC, KC_D)
-#define KC_GMOU LT(_MOUSE, KC_G)
-#define KC_FEXT LT(_EXTEND, KC_F)
+#define KC_LCMM LT(_LOWER, KC_COMM)
+#define KC_LDOT LT(_RAISE, KC_DOT)
+#define KC_LX   LT(_SUPPORT, KC_X)
+#define KC_LZ   LT(_ADJUST, KC_Z)
+#define KC_LLT  LT(_ADJUST, KC_T)
+#define KC_LLOW LT(_LOWER, KC_ESC)
+#define KC_LRAI LT(_RAISE, KC_BSPC)
+#define KC_MENT LSFT_T(KC_ENT)
+#define KC_MSPC LCTL_T(KC_SPC)
 
-#define KC_RST  RESET
-#define KC_LOW  LT(_LOWER, KC_ESC)
-#define KC_RAI  LT(_RAISE, KC_BSPC)
+#define KC_1CLR ONESHOT_CLEAR
+#define KC_1SFT ONESHOT_SHIFT
+#define KC_1CTL ONESHOT_CTRL
+#define KC_1ALT ONESHOT_ALT
+#define KC_1GUI ONESHOT_GUI
+
+#define KC_JPN  LALT(KC_GRV)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_BASE] = LAYOUT( /* Base */
 //'--------+--------+--------+--------+--------+--------+  '-------+--------+--------+--------+--------+--------'
-    KC_VGUI, KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   ,   KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   , KC_MGUI, \
-    KC_CALT, KC_A   , KC_S   , KC_DFNC, KC_FEXT, KC_GMOU,   KC_H   , KC_J   , KC_K   , KC_L   , KC_N   , KC_BALT, \
-                               KC_ZADJ, KC_LOW , KC_CSPC,   KC_SENT, KC_RAI , KC_XADJ                             \
+    KC_V   , KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   ,   KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   , KC_M   , \
+    KC_C   , KC_A   , KC_S   , KC_D   , KC_F   , KC_G   ,   KC_H   , KC_J   , KC_K   , KC_L   , KC_N   , KC_B   , \
+                               KC_LZ  , KC_LLOW, KC_MSPC,   KC_MENT, KC_LRAI, KC_LX                               \
+//                           '--------'--------+--------+  --------+--------'--------'
+  ),
+  [_CUSTOM] = LAYOUT(
+//'--------+--------+--------+--------+--------+--------+  '-------+--------+--------+--------+--------+--------'
+    KC_V   , KC_Q   , KC_W   , KC_F   , KC_P   , KC_G   ,   KC_J   , KC_L   , KC_U   , KC_Y   , KC_K   , KC_M   , \
+    KC_C   , KC_A   , KC_R   , KC_S   , KC_T   , KC_D   ,   KC_H   , KC_N   , KC_E   , KC_I   , KC_O   , KC_B   , \
+                               _______, _______, _______,   _______, _______, _______                             \
 //                           '--------'--------+--------+  --------+--------'--------'
   ),
   [_LOWER] = LAYOUT(
 //'--------+--------+--------+--------+--------+--------+  '-------+--------+--------+--------+--------+--------'
-    KC_LABK, KC_TILD, KC_BSLS, _______, _______, KC_TAB ,   KC_QUOT, KC_DQT , KC_UNDS, KC_PIPE, KC_COLN, KC_QUES, \
-    KC_RABK, KC_GRV , KC_EQL , KC_PLUS, KC_MINS, KC_APP ,   KC_LBRC, KC_RBRC, KC_LCBR, KC_RCBR, KC_SCLN, KC_QUES, \
+    KC_1GUI, KC_6   , KC_7   , KC_8   , KC_9   , KC_0   ,   KC_MINS, KC_BSLS, KC_COMM, KC_DOT , KC_SLSH, KC_1ALT, \
+    KC_LBRC, KC_1   , KC_2   , KC_3   , KC_4   , KC_5   ,   KC_GRV , KC_QUOT, KC_EQL , KC_SCLN, KC_SCLN, KC_RBRC, \
                                _______, _______, _______,   _______, _______, _______                             \
 //                           '--------'--------+--------+  --------+--------'--------'
   ),
   [_RAISE] = LAYOUT(
 //'--------+--------+--------+--------+--------+--------+  '-------+--------+--------+--------+--------+--------'
-    KC_COMM, KC_EXLM, KC_AT  , KC_HASH, KC_DLR , KC_PERC,   KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_SLSH, \
-    KC_DOT , KC_1   , KC_2   , KC_3   , KC_4   , KC_5   ,   KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , KC_SLSH, \
+    KC_1GUI, KC_PGUP, KC_HOME, KC_UP  , KC_END , KC_F1  ,   KC_F2  , KC_F3  , KC_F4  , KC_F5  , KC_F6  , KC_1ALT, \
+    KC_1SFT, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_F7  ,   KC_F8  , KC_F9  , KC_F10 , KC_F11 , KC_F12 , KC_1CTL, \
                                _______, _______, _______,   _______, _______, _______                             \
 //                           '--------'--------+--------+  --------+--------'--------'
   ),
-  [_EXTEND] = LAYOUT(
+  [_SUPPORT] = LAYOUT(
 //'--------+--------+--------+--------+--------+--------+  '-------+--------+--------+--------+--------+--------'
-    _______, _______, _______, KC_ESC , _______, _______,   KC_COLN, KC_SCLN, KC_LABK, KC_RABK, KC_QUES, _______, \
-    _______, _______, _______, KC_BSPC, _______, _______,   KC_ENT , KC_SPC , KC_COMM, KC_DOT , KC_SLSH, _______, \
-                               _______, _______, _______,   _______, _______, _______                             \
-//                           '--------'--------+--------+  --------+--------'--------'
-  ),
-  [_FUNC] = LAYOUT(
-//'--------+--------+--------+--------+--------+--------+  '-------+--------+--------+--------+--------+--------'
-    KC_HOME, KC_F1  , KC_F2  , KC_F3  , KC_F4  , KC_F5  ,   KC_F6  , KC_F7  , KC_F8  , KC_F9  , KC_F10 , _______, \
-    KC_END , KC_F11 , KC_F12 , _______, KC_PGUP, KC_PGDN,   KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, KC_PSCR, _______, \
-                               _______, _______, _______,   _______, _______, _______                             \
-//                           '--------'--------+--------+  --------+--------'--------'
-  ),
-  [_MOUSE] = LAYOUT(
-//'--------+--------+--------+--------+--------+--------+  '-------+--------+--------+--------+--------+--------'
-    KC_WH_U, _______, _______, KC_ESC , _______, _______,   KC_BTN1, KC_BTN2, KC_BTN3, KC_BTN4, KC_BTN5, KC_WH_L, \
-    KC_WH_D, _______, _______, KC_BSPC, _______, _______,   KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, _______, KC_WH_R, \
+    XXXXXXX, KC_ESC , XXXXXXX, KC_HENK, KC_MHEN, XXXXXXX,   KC_LEFT, KC_UP  , KC_DOWN, KC_RGHT, XXXXXXX, XXXXXXX, \
+    KC_CAPS, KC_TAB , XXXXXXX, KC_BSPC, KC_SPC , XXXXXXX,   XXXXXXX, KC_JPN , KC_LCTL, KC_LSFT, KC_BSPC, XXXXXXX, \
                                _______, _______, _______,   _______, _______, _______                             \
 //                           '--------'--------+--------+  --------+--------'--------'
   ),
   [_ADJUST] = LAYOUT(
 //'--------+--------+--------+--------+--------+--------+  '-------+--------+--------+--------+--------+--------'
-    _______, KC_RST , KC_LCTL, KC_LALT, KC_DEL , RGB_TOG,   RGB_HUI, RGB_SAI, RGB_VAI, RGBRST , KC_RST , _______, \
-    _______, _______, _______, _______,RGB_MOD ,RGB_RMOD,   RGB_HUD, RGB_SAD, RGB_VAD, RGB_TOG, _______, _______, \
+    RESET  , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_RTOG,   KC_RHUI, KC_RSAI, KC_RVAI, RGBRST , XXXXXXX, XXXXXXX, \
+    KC_L1  , KC_L2  , XXXXXXX, XXXXXXX, KC_RRMD, KC_RMOD,   KC_RHUD, KC_RSAD, KC_RVAD, XXXXXXX, XXXXXXX, XXXXXXX, \
                                _______, _______, _______,   _______, _______, _______                             \
 //                           '--------'--------+--------+  --------+--------'--------'
   )
@@ -188,6 +195,20 @@ void iota_gfx_task_user(void) {
 }
 #endif//SSD1306OLED
 
+// ワンショットモディファイアの追加
+// ※ 各モディファイアは合成、保持される
+void append_onshot_modifier(uint8_t newkey) {
+  uint8_t modkeys = get_oneshot_mods() | newkey;
+  set_oneshot_mods(modkeys);
+}
+void set_oneshot_shift(void) { append_onshot_modifier(MOD_LSFT); }
+void set_oneshot_ctrl(void)  { append_onshot_modifier(MOD_LCTL); }
+void set_oneshot_alt(void)   { append_onshot_modifier(MOD_LALT); }
+void set_oneshot_gui(void)   { append_onshot_modifier(MOD_LGUI); }
+void set_oneshot_clear(void) {
+  clear_oneshot_mods();
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
 #ifdef SSD1306OLED
@@ -197,6 +218,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
 
   switch (keycode) {
+/*
     case BASE:
       if (record->event.pressed) {
         persistent_default_layer_set(1UL<<_BASE);
@@ -231,6 +253,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         return false;
         break;
+*/
     case RGB_MOD:
       #ifdef RGBLIGHT_ENABLE
         if (record->event.pressed) {
@@ -250,6 +273,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       #endif
       break;
+    case ONESHOT_CLEAR: set_oneshot_clear(); break;
+    case ONESHOT_SHIFT: set_oneshot_shift(); break;
+    case ONESHOT_CTRL:  set_oneshot_ctrl(); break;
+    case ONESHOT_ALT:   set_oneshot_alt(); break;
+    case ONESHOT_GUI:   set_oneshot_gui(); break;
   }
   return true;
 }
