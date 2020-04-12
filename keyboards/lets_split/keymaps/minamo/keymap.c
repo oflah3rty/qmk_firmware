@@ -8,10 +8,11 @@ extern keymap_config_t keymap_config;
 // entirely and just use numbers.
 #define _BASE    0
 #define _CUSTOM  1
-#define _LOWER   2
-#define _RAISE   3
-#define _SUPPORT 4
-#define _ADJUST  5
+#define _TERRARIA 2
+#define _LOWER   3
+#define _RAISE   4
+#define _SUPPORT 5
+#define _ADJUST  6
 
 enum custom_keycodes {
   ONESHOT_CLEAR = SAFE_RANGE,
@@ -38,6 +39,7 @@ enum custom_keycodes {
 
 #define KC_L1 DF(_BASE)
 #define KC_L2 DF(_CUSTOM)
+#define KC_TERR DF(_TERRARIA)
 
 #define KC_LCMM LT(_LOWER, KC_COMM)
 #define KC_LDOT LT(_RAISE, KC_DOT)
@@ -101,11 +103,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      _______ , _______ , _______ , _______ , _______ , _______ ,    _______ , _______ , _______ , _______ , _______ , _______   \
 // `---------+---------+---------+---------+---------+---------/  `---------+---------+---------+---------+---------+---------/
 ),
+[_TERRARIA] = LAYOUT_ortho_4x12( \
+// ,---------+---------+---------+---------+---------+---------.  ,---------+---------+---------+---------+---------+---------.
+     KC_ESC  , KC_Q    , KC_W    , KC_E    , KC_R    , KC_T    ,    XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_LENT , XXXXXXX , \
+     KC_LCTL , KC_A    , KC_S    , KC_D    , KC_F    , KC_G    ,    XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_LENT , XXXXXXX , \
+     KC_LSFT , KC_Z    , KC_X    , KC_C    , KC_V    , KC_B    ,    XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_LENT , XXXXXXX , \
+     KC_TAB  , XXXXXXX , XXXXXXX , XXXXXXX , KC_LLOW , KC_SPC  ,    XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX   \
+// `---------+---------+---------+---------+---------+---------/  `---------+---------+---------+---------+---------+---------/
+),
 [_ADJUST] =  LAYOUT_ortho_4x12( \
 // ,---------+---------+---------+---------+---------+---------.  ,---------+---------+---------+---------+---------+---------.
      RESET   , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_RTOG ,    KC_RHUI , KC_RSAI , KC_RVAI , RGB_RST , _______ , _______ , \
      KC_L1   , KC_L2   , XXXXXXX , XXXXXXX , XXXXXXX , KC_RMOD ,    KC_RHUD , KC_RSAD , KC_RVAD , TAP_ANM , _______ , _______ , \
-     _______ , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , KC_RRMD ,    KC_MUTE , KC_VOLU , KC_VOLD , XXXXXXX , XXXXXXX , _______ , \
+     _______ , KC_TERR , XXXXXXX , XXXXXXX , XXXXXXX , KC_RRMD ,    KC_MUTE , KC_VOLU , KC_VOLD , XXXXXXX , XXXXXXX , _______ , \
      _______ , _______ , _______ , _______ , _______ , _______ ,    _______ , _______ , _______ , _______ , _______ , _______   \
 // `---------+---------+---------+---------+---------+---------/  `---------+---------+---------+---------+---------+---------/
 )

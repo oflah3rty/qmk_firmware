@@ -35,3 +35,4 @@ HD44780_ENABLE = no 		# Enable support for HD44780 based LCDs
 #RGBLIGHT_ENABLE = yes # uncomment if you want addressable led strips
 
 DEFAULT_FOLDER = namecard2x4/rev2
+LEADER_ENABLE = yes

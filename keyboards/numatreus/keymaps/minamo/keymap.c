@@ -40,8 +40,8 @@ enum custom_keycodes {
 #define KC_LDOT LT(_RAISE, KC_DOT)
 #define KC_LSLS LT(_SUPPORT, KC_SLSH)
 #define KC_LENT LT(_ADJUST, KC_ENTER)
-#define KC_LLOW MO(_LOWER)
-#define KC_LRAI MO(_RAISE)
+#define KC_LLOW LT(_LOWER, KC_ESC)
+#define KC_LRAI LT(_RAISE, KC_BSPC)
 #define KC_MENT LSFT_T(KC_ENT)
 #define KC_MSPC LCTL_T(KC_SPC)
 

@@ -83,7 +83,7 @@ void matrix_scan_user(void) {
 
     SEQ_ONE_KEY(KC_ENT) {
       // Anything you can do in a macro.
-      SEND_STRING("https://docs.google.com/presentation/d/e/2PACX-1vQaf1mCiwJi0VDS1X3SvFZGcKa_h97qBV7S8PtKVxb2kBI78QshlwpuHqUIQwaRstQNT9nsPAK-XYzj/pub?start=false&loop=false&delayms=3000"SS_TAP(X_ENTER));
+      SEND_STRING("https://docs.google.com/presentation/d/1mz0fW7Gndmv6Mr-leKJEQr0iwjpCXYCkk7U385fEPLA/edit?usp=sharing"SS_TAP(X_ENTER));
     }
   }
 }

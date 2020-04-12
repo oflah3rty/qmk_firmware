@@ -26,22 +26,17 @@ extern uint8_t is_master;
 // entirely and just use numbers.
 enum layer_number {
     _QWERTY = 0,
-    _COLEMAK,
-    _DVORAK,
     _LOWER,
     _RAISE,
-    _EXTEND,
-    _FUNC,
+    _SUPPORT,
     _ADJUST
 };
 
 enum custom_keycodes {
   QWERTY = SAFE_RANGE,
-  COLEMAK,
-  DVORAK,
   LOWER,
   RAISE,
-  FUNC,
+  SUPPORT,
   ADJUST,
   BACKLIT,
   EISU,
@@ -58,14 +53,28 @@ enum macro_keycodes {
 #define _______ KC_TRNS
 #define XXXXXXX KC_NO
 
-#define KC_CSPC LCTL_T(KC_SPACE)
-#define KC_SENT LSFT_T(KC_ENTER)
-#define KC_LOW  LT(_LOWER, KC_ESC)
-#define KC_RAI  LT(_RAISE, KC_TAB)
+#define M_SPACE CTL_T(KC_SPC)
+#define M_ENT SFT_T(KC_ENT)
+#define M_LOWER LT(_LOWER, KC_ESC)
+#define M_RAISE LT(_RAISE, KC_BSPC)
 
-#define KC_DFNC LT(_FUNC, KC_D)
-//#define KC_GMOU LT(_MOUSE, KC_G)
-#define KC_FEXT LT(_EXTEND, KC_F)
+#define KC_LCMM LT(_LOWER, KC_COMM)
+#define KC_LDOT LT(_RAISE, KC_DOT)
+#define KC_LSLS LT(_SUPPORT, KC_SLSH)
+
+#define KC_RST RESET
+#define KC_DBUG DEBUG
+#define KC_RTOG RGB_TOG
+#define KC_RMOD RGB_MOD
+#define KC_RRMD RGB_RMOD
+#define KC_RHUI RGB_HUI
+#define KC_RHUD RGB_HUD
+#define KC_RSAI RGB_SAI
+#define KC_RSAD RGB_SAD
+#define KC_RVAI RGB_VAI
+#define KC_RVAD RGB_VAD
+
+#define KC_JPN  LALT(KC_GRV)
 
 #define RGB_SMD RGB_MOD
 #define RGB_RMD RGB_RMOD
@@ -73,58 +82,37 @@ enum macro_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_QWERTY] = LAYOUT( \
-      KC_ESC , KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   ,                   KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   , KC_BSPC, \
-      KC_TAB , KC_A   , KC_S   , KC_DFNC, KC_FEXT, KC_G   ,                   KC_H   , KC_J   , KC_K   , KC_L   , KC_SCLN, KC_APP , \
-      XXXXXXX, KC_Z   , KC_X   , KC_C   , KC_V   , KC_B   ,                   KC_N   , KC_M   , KC_COMM, KC_DOT , KC_SLSH, ADJUST , \
-      ADJUST , XXXXXXX, XXXXXXX, KC_LGUI, KC_LOW , KC_CSPC, KC_CSPC, KC_SENT, KC_SENT, KC_RAI , KC_LALT, KC_LCTL, KC_LALT, KC_DEL  \
-      ),
-
-  [_COLEMAK] = LAYOUT( \
-      KC_TAB , KC_Q   , KC_W   , KC_F   , KC_P   , KC_G   ,                   KC_J   , KC_L   , KC_U   , KC_Y   , KC_SCLN, KC_BSPC, \
-      KC_LCTL, KC_A   , KC_R   , KC_S   , KC_T   , KC_D   ,                   KC_H   , KC_N   , KC_E   , KC_I   , KC_O   , KC_QUOT, \
-      KC_LSFT, KC_Z   , KC_X   , KC_C   , KC_V   , KC_B   ,                   KC_K   , KC_M   , KC_COMM, KC_DOT , KC_SLSH, KC_ENT , \
-      ADJUST , KC_ESC , KC_LALT, KC_LGUI, EISU   , LOWER  , KC_SPC , KC_SPC , RAISE  , KANA   , KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT \
-      ),
-
-  [_DVORAK] = LAYOUT( \
-      KC_TAB , KC_QUOT, KC_COMM, KC_DOT , KC_P   , KC_Y   ,                   KC_F   , KC_G   , KC_C   , KC_R   , KC_L   , KC_BSPC, \
-      KC_LCTL, KC_A   , KC_O   , KC_E   , KC_U   , KC_I   ,                   KC_D   , KC_H   , KC_T   , KC_N   , KC_S   , KC_SLSH, \
-      KC_LSFT, KC_SCLN, KC_Q   , KC_J   , KC_K   , KC_X   ,                   KC_B   , KC_M   , KC_W   , KC_V   , KC_Z   , KC_ENT , \
-      ADJUST , KC_ESC , KC_LALT, KC_LGUI, EISU   , LOWER  , KC_SPC , KC_SPC , RAISE  , KANA   , KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT \
+      KC_ESC , KC_Q   , KC_W   , KC_F   , KC_P   , KC_G   ,                   KC_J    , KC_L   , KC_U   , KC_Y   , KC_ENT , KC_BSPC, \
+      KC_TAB , KC_A   , KC_R   , KC_S   , KC_T   , KC_D   ,                   KC_H    , KC_N   , KC_E   , KC_I   , KC_O   , XXXXXXX, \
+      XXXXXXX, KC_Z   , KC_X   , KC_C   , KC_V   , KC_B   ,                   KC_K    , KC_M   , KC_LCMM, KC_LDOT, KC_LSLS, KC_UP  , \
+      ADJUST , XXXXXXX, XXXXXXX, KC_LGUI, M_LOWER, M_SPACE, M_SPACE, M_ENT  , M_ENT   , M_RAISE, KC_LALT, KC_LEFT, KC_RGHT, KC_DOWN \
       ),
 
   [_LOWER] = LAYOUT( \
-      _______, KC_TILD, KC_BSLS, _______, _______, KC_TAB ,                   KC_QUOT, KC_DQT , KC_UNDS, KC_PIPE, KC_COLN, _______, \
-      _______, KC_GRV , KC_EQL , KC_PLUS, KC_MINS, KC_APP ,                   KC_LBRC, KC_RBRC, KC_LCBR, KC_RCBR, KC_SCLN, _______, \
-      _______, _______, _______, _______, _______, _______,                   KC_LPRN, KC_RPRN, KC_LABK, KC_RABK, KC_QUES, _______, \
+      _______, KC_6   , KC_7   , KC_8   , KC_9   , KC_0   ,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, \
+      _______, KC_1   , KC_2   , KC_3   , KC_4   , KC_5   ,                   KC_GRV , KC_QUOT, XXXXXXX, KC_SCLN, KC_SCLN, _______, \
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_LBRC,                   KC_RBRC, KC_EQL , _______, KC_MINS, KC_BSLS, _______, \
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______ \
       ),
 
   [_RAISE] = LAYOUT( \
-      KC_EQL , KC_EXLM, KC_AT  , KC_HASH, KC_DLR , KC_PERC,                   KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______, \
-      _______, KC_1   , KC_2   , KC_3   , KC_4   , KC_5   ,                   KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , _______, \
-      _______, KC_PLUS, KC_MINS, KC_ASTR, KC_SLSH, KC_DOT ,                   _______, _______, KC_COMM, KC_DOT , KC_SLSH, _______, \
+      _______, KC_PGUP, KC_HOME, KC_UP  , KC_END , KC_F1  ,                   KC_F2  , KC_F3  , KC_F4  , KC_F5  , KC_F6  , _______, \
+      _______, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_F7  ,                   KC_F8  , KC_F9  , KC_F10 , KC_F11 , KC_F12 , _______, \
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_PSCR, KC_APP , XXXXXXX, XXXXXXX, KC_DEL , _______, \
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______ \
       ),
 
-  [_EXTEND] = LAYOUT( \
-      _______, _______, _______, KC_ESC , _______, _______,                   KC_COLN, KC_SCLN, KC_LABK, KC_RABK, KC_QUES, _______, \
-      _______, _______, _______, KC_BSPC, _______, _______,                   KC_ENT , KC_SPC , KC_COMM, KC_DOT , KC_SLSH, _______, \
-      _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______, \
-      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______ \
-      ),
-
-  [_FUNC] = LAYOUT( \
-      KC_F1  , KC_F2  , KC_F3  , KC_F4  , KC_F5  , KC_F6  ,                   KC_HOME, KC_END , _______, _______, _______, _______, \
-      KC_F7  , KC_F8  , KC_F9  , KC_F10 , KC_F11 , KC_F12 ,                   KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, _______, _______, \
-      _______, _______, _______, _______, _______, _______,                   KC_PGUP, KC_PGDN, _______, _______, _______, _______, \
+  [_SUPPORT] = LAYOUT( \
+      _______, KC_ESC , XXXXXXX, KC_HENK, KC_MHEN, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, \
+      _______, KC_TAB , XXXXXXX, KC_BSPC, KC_SPC , XXXXXXX,                   XXXXXXX, KC_JPN , KC_LCTL, KC_LSFT, XXXXXXX, _______, \
+      _______, KC_CAPS, XXXXXXX, XXXXXXX, KC_SPC , KC_SPC ,                   KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, _______, _______, \
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______ \
       ),
 
   [_ADJUST] =  LAYOUT( \
-      RESET  , _______, _______, _______, _______, _______,                   _______, QWERTY , COLEMAK, DVORAK , _______, _______, \
-      AG_NORM, AU_ON  , AU_OFF , MU_TOG , MU_MOD , _______,                   _______, RGBRST , RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, \
-      AG_SWAP, CK_TOGG, CK_RST , CK_UP  , CK_DOWN, _______,                   _______, RGB_RMD, RGB_SMD, RGB_HUD, RGB_SAD, RGB_VAD, \
+      RESET  , _______, _______, _______, _______, _______,                   _______, QWERTY , _______, _______, _______, _______, \
+      _______, AU_ON  , AU_OFF , MU_TOG , MU_MOD , _______,                   _______, RGBRST , RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, \
+      _______, CK_TOGG, CK_RST , CK_UP  , CK_DOWN, _______,                   _______, RGB_RMD, RGB_SMD, RGB_HUD, RGB_SAD, RGB_VAD, \
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______ \
       )
 };
@@ -173,24 +161,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
-    case COLEMAK:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(tone_colemak);
-        #endif
-        persistent_default_layer_set(1UL<<_COLEMAK);
-      }
-      return false;
-      break;
-    case DVORAK:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(tone_dvorak);
-        #endif
-        persistent_default_layer_set(1UL<<_DVORAK);
-      }
-      return false;
-      break;
     case LOWER:
       if (record->event.pressed) {
           //not sure how to have keyboard check mode and set it to a variable, so my work around
@@ -234,25 +204,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         layer_off(_RAISE);
         TOG_STATUS = false;
         update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
-      }
-      return false;
-      break;
-    case FUNC:
-      if (record->event.pressed) {
-        if (TOG_STATUS) { //TOG_STATUS checks is another reactive key currently pressed, only changes RGB mode if returns false
-        } else {
-          TOG_STATUS = !TOG_STATUS;
-          #ifdef RGBLIGHT_ENABLE
-            //rgblight_mode(16);
-          #endif
-        }
-        layer_on(_FUNC);
-      } else {
-        #ifdef RGBLIGHT_ENABLE
-          //rgblight_mode(RGB_current_mode);   // revert RGB to initial mode prior to RGB mode change
-        #endif
-        TOG_STATUS = false;
-        layer_off(_FUNC);
       }
       return false;
       break;
